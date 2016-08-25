@@ -1,0 +1,152 @@
+#![feature(inclusive_range_syntax)]
+extern crate num;
+
+use std::io;
+
+#[macro_use]
+mod utils;
+
+mod euler;
+mod hackerrank;
+
+fn main() {
+    //euler::circular_primes_35::circularprimes();
+    //hackerrank::modfib::modified_fib();
+    //hackerrank::cut_the_tree::cut_the_tree();
+    euler::longest_collatz_14::longest_collatz();
+}
+
+fn px() {
+    let x = b'a';
+    let y = x + 1;
+    println!("{}", y as char);
+}
+
+fn p4() {
+    let m = read_matrix_p4();
+    let mut max_path: u32 = 0;
+
+    for i in 0..m.len() {
+        for j in 0..m[0].len() {
+            if m[i][j] != 0 {
+                let l = explore(&mut m.clone(), i as isize, j as isize);
+                if l > max_path {
+                    max_path = l;
+                }
+            }
+        }
+    }
+    println!("{}", max_path);
+    //println!("{:?}", m);
+    }
+
+fn explore(m: &mut Vec<Vec<u32>>, r: isize, c: isize) -> u32 {
+    
+    if r < 0 || r >= m.len() as isize || c < 0 || c >= m[0].len() as isize {
+        return 0;
+    }
+
+    let mut sum = 0;
+    
+    if m[r as usize][c as usize] == 1 {
+        m[r as usize][c as usize] = 0;
+        sum = 1 +
+            explore(m, r - 1, c) +
+            explore(m, r - 1, c - 1) +
+            explore(m, r + 1, c) +
+            explore(m, r + 1, c + 1) +
+            explore(m, r, c - 1) +
+            explore(m, r + 1, c - 1) +
+            explore(m, r, c + 1) +
+            explore(m, r - 1, c + 1);
+    }
+    sum
+}
+
+fn read_matrix_p4() -> Vec<Vec<u32>> {
+
+    let mut r_str: String = String::new();
+    let mut c_str: String = String::new();
+    
+    
+    io::stdin().read_line(&mut r_str);
+    io::stdin().read_line(&mut c_str);
+
+    let r: usize = r_str.trim().parse().unwrap();
+    let c: usize = c_str.trim().parse().unwrap();
+
+    let mut g: Vec<Vec<u32>> = Vec::with_capacity(r);
+
+    for i in 0..r {
+        let mut v: Vec<u32> = Vec::new();
+        let mut row: String = String::new();
+        io::stdin().read_line(&mut row);
+        let mut wsi = row.split_whitespace();
+        for j in 0..c {
+            v.push(wsi.next().unwrap().parse().unwrap());
+        }
+        g.push(v.clone());
+    }
+    g
+}
+
+fn p3() {
+    let mut t_str: String = String::new();
+    io::stdin().read_line(&mut t_str);
+    
+    for t in 0u32..t_str.trim().parse().unwrap() {
+        let g: Vec<String> = read_matrix();
+        let p: Vec<String> = read_matrix();
+
+        if contains(&g, &p) { println!("YES"); } else { println!("NO"); }
+    }
+}
+
+fn contains(g: &Vec<String>, p: &Vec<String>) -> bool {
+    let cols = p[0].len();
+    for r in 0..g.len() - p.len() + 1 {
+        for c in 0..g[r].len() - cols + 1{
+            if match_at(&g, &p, r, c) {
+                return true;
+            }
+        }
+    }
+    false
+}
+
+fn match_at(g: &Vec<String>, p: &Vec<String>, r: usize, c: usize) -> bool {
+    for i in 0..p.len() {
+        let gs = &g[r + i][c..c + p[i].len()];
+        let ps = &p[i][..];
+
+        if gs != ps {
+            return false;
+        }
+    }
+    true
+}
+
+
+
+fn read_matrix() -> Vec<String> {
+
+    let mut grgc_str: String = String::new();
+    
+    
+    io::stdin().read_line(&mut grgc_str);
+    let mut iter = grgc_str.split(' ');
+
+    let r: usize = iter.next().unwrap().trim().parse().unwrap();
+    let c: usize = iter.next().unwrap().trim().parse().unwrap();
+
+    let mut g: Vec<String> = Vec::with_capacity(r);
+
+    for i in 0..r {
+        let mut row: String = String::with_capacity(c);
+        io::stdin().read_line(&mut row);
+        g.push(row.trim().to_string());
+    }
+    g
+}
+
+

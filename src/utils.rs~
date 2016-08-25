@@ -1,0 +1,20 @@
+use std::io;
+
+macro_rules! read_num_vec {
+    ($func_name:ident, $num_type:ty) => (
+        fn $func_name() -> Vec<$num_type> {
+            let mut line = String::new();
+            io::stdin().read_line(&mut line);
+            line.split(' ')
+                .map(|slice| slice.trim().parse::<$num_type>().unwrap())
+                .collect::<Vec<$num_type>>()
+        }
+    )
+}
+
+pub fn read_int() -> i32 {
+    let mut line = String::new();
+    io::stdin().read_line(&mut line);
+    let n: i32 = line.trim().parse().unwrap();
+    n
+}
