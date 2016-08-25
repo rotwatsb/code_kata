@@ -4,17 +4,11 @@ use std::u32;
 use utils;
 
 pub fn cut_the_tree() {
-    
-    let n: i32 = utils::read_int();
-    let vals: Vec<i32> = read_ints();
-    let mut tree: Vec<Vec<usize>>
-        = vec![vec![]; n as usize];
-    for i in 1 .. n {
-        let (a, b): (i32, i32) = read_int_pair();
-        tree[a as usize - 1].push(b as usize - 1);
-        tree[b as usize - 1].push(a as usize - 1);
-    }
-    let mut subsums: Vec<i32> = vec![0; n as usize];
+
+    let vals: Vec<i32> = utils::read_ints();
+    let n: usize = utils::read_int() as usize;
+    let mut tree = utils::read_tree_edges(n);
+    let mut subsums: Vec<i32> = vec![0; tree.len()];
     ctf_calc_subsums(0, 0, &mut tree, &vals, &mut subsums);
     
     let mut min_diff: u32 = u32::MAX;
@@ -47,11 +41,6 @@ fn ctf_calc_subsums(par: usize, cur: usize, tree: &mut Vec<Vec<usize>>, vals: &V
     subsums[cur] = subsum + vals[cur];
 }
 
-read_num_vec!(read_ints, i32);
 
-fn read_int_pair() -> (i32, i32) {
-    let vals: Vec<i32> = read_ints();
-    (vals[0], vals[1])
-}
 
 
