@@ -21,9 +21,14 @@ pub fn read_int() -> i32 {
 
 read_num_vec!(read_ints, i32);
 
-fn read_int_pair() -> (i32, i32) {
+pub fn read_int_pair() -> (i32, i32) {
     let vals: Vec<i32> = read_ints();
     (vals[0], vals[1])
+}
+
+pub fn read_usize_pair() -> (usize, usize) {
+    let vals: Vec<i32> = read_ints();
+    (vals[0] as usize, vals[1] as usize)
 }
 
 pub fn read_tree_edges(nodes: usize) -> Vec<Vec<usize>> {
