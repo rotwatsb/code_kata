@@ -25,6 +25,7 @@ words = ["zebra", "dogs", "duck", "dove", "doggie", "zenbot"]
 tree = Trie({})
 for word in words:
     tree.add(word)
-s = shortest_prefix(tree, words[5], "")
-print(s)
+
+output = [shortest_prefix(tree, word, "") for word in words]
+print(output)
 

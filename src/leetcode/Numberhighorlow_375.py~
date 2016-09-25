@@ -1,0 +1,47 @@
+import sys
+
+class Solution(object):
+    def getMoneyAmount(self, n):
+        memo = {}
+        print(self.minimax(1, n, 0, sys.maxsize, sys.minsize, True, memo))
+    
+    def minimax(self, lowest, highest, a, b, guess, minimize, memo):
+        if lowest >= highest:
+            return 0
+        
+        if minimize:
+            if (lowest, highest) in memo:
+                return memo[(lowest, highest)]
+            
+            best = sys.maxsize
+            for i in range(lowest, highest + 1):
+                v = self.minimax(lowest, highest, i, False, memo)
+                best = min(best, v)
+                
+            memo[(lowest, highest)] = best
+            return best
+        else:
+            return max(guess + self.minimax(lowest, guess - 1, guess, True, memo), guess + self.minimax(guess + 1, highest, guess, True, memo))
+            
+
+;; If you want to create a file, visit that file with C-x C-f,
+;; then enter the text in that file's own buffer.
+
+'''
+low, high = 1, n
+        while not low == high:
+            y = guesses[(low, high)]
+            print("{} -> ".format(y), end="")
+            if y == high:
+                high -= 1
+            elif y == low:
+                low += 1
+            elif not y-1 == low and memo[(y+1, high)] > memo[(low, y-1)]:
+                low = y+1
+            elif not y-1 == high:
+                high = y-1
+'''
+
+print("highest: {}, lowest: {}, best guess: {}".format(highest, lowest, best_guess))
+
+It can happen that when choosing a certain branch of a certain node the maximum score that the maximaizng player is assured of becomes greater than the minimum score that the minimizing player is assured of (beta>=alpha). If this is the case, the parent node should not choose this node, because it will make the score for the parent node worse. Therefore, the other branches of the node do not have to be explored.

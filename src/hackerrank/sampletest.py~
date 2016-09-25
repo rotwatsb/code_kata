@@ -1,0 +1,2 @@
+def StairCase(n):
+    n = int(input())

@@ -16,7 +16,8 @@ fn main() {
     //hackerrank::connected_cell_in_grid::connected_cell_in_grid();
     //hackerrank::the_grid_search::grid_search();
     //interviewbit::max_sum_path_in_binary_tree::max_sum();
-    hackerrank::knapsack::knapsack();
+    //hackerrank::knapsack::knapsack();
+    //euler::triangular_12::solve();
 }
 
 

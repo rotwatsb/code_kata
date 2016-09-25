@@ -1,0 +1,7 @@
+class Solution(object):
+    def numberToWords(self, num):
+        if num > 99:
+            x = num
+            while x > 0
+
+    

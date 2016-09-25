@@ -1,0 +1,14 @@
+#https://leetcode.com/problems/combination-sum-iv/
+
+class Solution(object):
+    def combinationSum4(self, nums, target):
+        nums = sort(nums)
+
+    def combsum(self, nums, target, memo):
+        count = 0
+        for num in nums:
+            if num < target:
+                count += self.combinationSum4(nums, target - num)
+            elif num == target:
+                count += 1
+        return count

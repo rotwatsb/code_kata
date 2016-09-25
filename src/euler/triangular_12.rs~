@@ -1,0 +1,22 @@
+use std::f64;
+
+fn solve() {
+    let i: usize = 2;
+    let tri_num: usize = 1;
+    while num_factors(tri_num) < 500 {
+        
+    }   
+}
+
+fn num_factors(n: usize) -> usize {
+    let i: usize = 1;
+    let factors: usize = 0;
+    let max_factor: usize = f64::sqrt(n as f64) as usize;
+    while i < max_factor {
+        if n % i == 0 {
+            factors += 2;
+        }
+        i += 1;
+    }
+    factors
+}
