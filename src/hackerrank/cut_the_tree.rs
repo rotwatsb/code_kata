@@ -5,8 +5,8 @@ use utils;
 
 pub fn cut_the_tree() {
 
-    let vals: Vec<i32> = utils::read_ints();
     let n: usize = utils::read_int() as usize;
+    let vals: Vec<i32> = utils::read_ints();
     let mut tree = utils::read_tree_edges(n);
     let mut subsums: Vec<i32> = vec![0; tree.len()];
     ctf_calc_subsums(0, 0, &mut tree, &vals, &mut subsums);

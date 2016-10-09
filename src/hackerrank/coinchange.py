@@ -5,13 +5,15 @@ def coin_change():
     n = n_and_m[0]
     coins = [int(x) for x in input().strip().split()]
     coins.sort()
+    
     #print(solve(n, coins))
-    print(solve2([n], [0], coins))
-
+    print(solve2(n, coins))
+    
+    
 def solve(val, coins):
     combinations = 0
     for i, coin in enumerate(coins):
-        if coin < val:
+        if coin < val and val - coin >= coin:
             combinations += solve(val - coin, coins[i:])
         elif coin == val:
             combinations += 1
@@ -19,19 +21,18 @@ def solve(val, coins):
             break
     return combinations
 
-def solve2(val_stack, i_stack, coins):
-    while val_stack:
-        val = val_stack.pop()
-        i = i_stack.pop()
-        combinations = 0
-        while i < len(coins):
-            if coin[i] < val:
-                val_stack.append(val - coin)
-                i_stack.append(i)
-            elif coin[i] == val:
-                combinations += 1
-            elif coin[i] > val:
-                break
-            
+def solve2(val, coins):
+    m = len(coins)
+    n = val
+    memo = [[0 for _ in range(m)] for _ in range(n+1)]
+    for i in range(m):
+        memo[0][i] = 1
+
+    for i in range(1, n+1):
+        for j in range(m):
+            x = memo[i - coins[j]][j] if i - coins[j] >= 0 else 0
+            y = memo[i][j-1] if j > 0 else 0
+            memo[i][j] = x + y
+    return memo[val][m-1]
     
     
