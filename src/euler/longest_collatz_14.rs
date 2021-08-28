@@ -16,18 +16,20 @@ pub fn longest_collatz() {
     }
     println!("map len: {:?}", stored_vals.len());
     println!("best: {:?}\nmax: {:?}", best, max);
-    
 }
 
 fn cmp_collatz(n: usize, stored_vals: &mut HashMap<usize, usize>) -> usize {
-    if n <= 1 { return 1; }
+    if n <= 1 {
+        return 1;
+    }
     if let Some(&val) = stored_vals.get(&n) {
         return val;
-    }
-    else {
-        let chain_len =
-            (if n % 2 == 0 { 1 + cmp_collatz(n / 2, stored_vals) }
-             else { 1 + cmp_collatz(3 * n + 1, stored_vals) });
+    } else {
+        let chain_len = if n % 2 == 0 {
+            1 + cmp_collatz(n / 2, stored_vals)
+        } else {
+            1 + cmp_collatz(3 * n + 1, stored_vals)
+        };
         stored_vals.insert(n, chain_len);
         chain_len
     }

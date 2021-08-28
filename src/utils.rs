@@ -1,40 +1,62 @@
 use std::io;
+use std::str::FromStr;
 
-macro_rules! read_num_vec {
-    ($func_name:ident, $num_type:ty) => (
-        pub fn $func_name() -> Vec<$num_type> {
+/*
+macro_rules! read_vec {
+    ($func_name:ident, $type:ty) => {
+        pub fn $func_name() -> Vec<$type> {
             let mut line = String::new();
-            io::stdin().read_line(&mut line);
+            io::stdin().read_line(&mut line).unwrap();
             line.split(' ')
-                .map(|slice| slice.trim().parse::<$num_type>().unwrap())
-                .collect::<Vec<$num_type>>()
+                .map(|slice| slice.trim().parse::<$type>().unwrap())
+                .collect::<Vec<$type>>()
         }
-    )
+    };
 }
+*/
 
 pub fn read_int() -> i32 {
     let mut line = String::new();
-    io::stdin().read_line(&mut line);
+    io::stdin().read_line(&mut line).unwrap();
     let n: i32 = line.trim().parse().unwrap();
     n
 }
 
-read_num_vec!(read_ints, i32);
+pub fn read_string() -> String {
+    let mut line = String::new();
+    if let Ok(_) = io::stdin().read_line(&mut line) {
+        line
+    } else {
+        line
+    }
+}
+
+pub fn read_one<T: FromStr>() -> Result<T, <T as FromStr>::Err> {
+    read_string().trim().parse::<T>()
+}
+
+pub fn read_vec<T: FromStr>() -> Vec<T> {
+    let mut line = String::new();
+    io::stdin().read_line(&mut line).unwrap();
+
+    line.split(' ')
+        .filter_map(|slice| slice.trim().parse::<T>().ok())
+        .collect()
+}
 
 pub fn read_int_pair() -> (i32, i32) {
-    let vals: Vec<i32> = read_ints();
+    let vals: Vec<i32> = read_vec();
     (vals[0], vals[1])
 }
 
 pub fn read_usize_pair() -> (usize, usize) {
-    let vals: Vec<i32> = read_ints();
+    let vals: Vec<i32> = read_vec();
     (vals[0] as usize, vals[1] as usize)
 }
 
 pub fn read_tree_edges(nodes: usize) -> Vec<Vec<usize>> {
-    let mut tree: Vec<Vec<usize>>
-        = vec![vec![]; nodes as usize];
-    for i in 1 .. nodes {
+    let mut tree: Vec<Vec<usize>> = vec![vec![]; nodes as usize];
+    for _ in 1..nodes {
         let (a, b): (i32, i32) = read_int_pair();
         tree[a as usize - 1].push(b as usize - 1);
         tree[b as usize - 1].push(a as usize - 1);
@@ -42,29 +64,26 @@ pub fn read_tree_edges(nodes: usize) -> Vec<Vec<usize>> {
     tree
 }
 
-pub fn read_matrix_u32() -> Vec<Vec<u32>> {
+pub fn read_matrix<T: FromStr>(rows: usize) -> Vec<Vec<T>> {
+    let mut m: Vec<Vec<T>> = Vec::with_capacity(rows);
 
-    let mut r_str: String = String::new();
-    let mut c_str: String = String::new();
-    
-    
-    io::stdin().read_line(&mut r_str);
-    io::stdin().read_line(&mut c_str);
+    for _ in 0..rows {
+        let mut line = String::new();
+        io::stdin().read_line(&mut line).unwrap();
 
-    let r: usize = r_str.trim().parse().unwrap();
-    let c: usize = c_str.trim().parse().unwrap();
+        let row: Vec<T> = line
+            .split(' ')
+            .filter_map(|slice| slice.trim().parse::<T>().ok())
+            .collect();
 
-    let mut g: Vec<Vec<u32>> = Vec::with_capacity(r);
-
-    for i in 0..r {
-        let mut v: Vec<u32> = Vec::new();
-        let mut row: String = String::new();
-        io::stdin().read_line(&mut row);
-        let mut wsi = row.split_whitespace();
-        for j in 0..c {
-            v.push(wsi.next().unwrap().parse().unwrap());
-        }
-        g.push(v.clone());
+        m.push(row);
     }
-    g
+    m
+}
+
+pub fn word_freqs(s: &str) -> [i32; 26] {
+    s.chars().fold([0; 26], |mut freqs, c| {
+        freqs[c.to_ascii_lowercase() as usize - 'a' as usize] += 1;
+        freqs
+    })
 }

@@ -1,29 +1,28 @@
-use num::bigint::BigInt;
-use std::io;
+// https://www.hackerrank.com/challenges/fibonacci-modified/problem
 
+use num::bigint::BigInt;
 use utils;
 
-read_num_vec!(read_bigints, BigInt);
-
 pub fn modified_fib() {
-    let starts = read_bigints();
-    let mut mod_fibs: Vec<BigInt> =
-        vec![starts[0].clone(), starts[0].clone(), starts[1].clone()];
-    let (sign, v) = starts[2].to_bytes_le();
-    let n = v[0] as usize;
-    let nth: BigInt = calc_mod_fib(n, &mut mod_fibs);
-    println!("{}", nth);
-}
+    let v: Vec<i32> = utils::read_vec();
+    let mut a = BigInt::from(v[0]);
+    let mut b = BigInt::from(v[1]);
+    let mut tmp: BigInt;
 
-fn calc_mod_fib(n: usize, mod_fibs: &mut Vec<BigInt>) -> BigInt {
-    if mod_fibs.len() > n {
-        mod_fibs[n].clone()
-    }
-    else {
-        let x: BigInt =
-            calc_mod_fib(n - 1, mod_fibs) * calc_mod_fib(n - 1, mod_fibs) +
-            calc_mod_fib(n - 2, mod_fibs);
-        mod_fibs.push(x.clone());
-        x
-    }
+    let n = v[2] as usize;
+
+    let result = if n == 1 {
+        a
+    } else if n == 2 {
+        b
+    } else {
+        for _ in 0..(n - 2) {
+            tmp = a.clone() + (b.clone() * b.clone());
+            a = b;
+            b = tmp;
+        }
+        b
+    };
+
+    println!("{}", result.to_str_radix(10));
 }

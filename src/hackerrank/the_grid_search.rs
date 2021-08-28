@@ -2,9 +2,9 @@ use std::io;
 
 pub fn grid_search() {
     let mut t_str: String = String::new();
-    io::stdin().read_line(&mut t_str);
+    io::stdin().read_line(&mut t_str).unwrap();
     
-    for t in 0u32..t_str.trim().parse().unwrap() {
+    for _ in 0u32..t_str.trim().parse().unwrap() {
         let g: Vec<String> = read_matrix();
         let p: Vec<String> = read_matrix();
 
@@ -43,7 +43,7 @@ fn read_matrix() -> Vec<String> {
     let mut grgc_str: String = String::new();
     
     
-    io::stdin().read_line(&mut grgc_str);
+    io::stdin().read_line(&mut grgc_str).unwrap();
     let mut iter = grgc_str.split(' ');
 
     let r: usize = iter.next().unwrap().trim().parse().unwrap();
@@ -51,9 +51,9 @@ fn read_matrix() -> Vec<String> {
 
     let mut g: Vec<String> = Vec::with_capacity(r);
 
-    for i in 0..r {
+    for _ in 0..r {
         let mut row: String = String::with_capacity(c);
-        io::stdin().read_line(&mut row);
+        io::stdin().read_line(&mut row).unwrap();
         g.push(row.trim().to_string());
     }
     g

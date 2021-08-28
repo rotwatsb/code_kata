@@ -1,11 +1,10 @@
 use std::f64;
-use std::cmp;
 
 pub fn solve() {
     let mut i: usize = 2;
     let mut tri_num: usize = 1;
     let mut max: usize = 0;
-    let mut v: usize = 0;
+    let mut v: usize;
     loop {
         v = num_factors(tri_num);
         if v > max {

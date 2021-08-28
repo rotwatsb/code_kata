@@ -10,12 +10,12 @@ pub fn circularprimes() {
         }
         x += 2;
     }
-    
-    let mut primes2 = primes.clone();
+
+    let primes2 = primes.clone();
     let mut circular_primes: usize = 0;
-    let mut num_digits: usize = 0;
-    let mut t: usize = 0;
-    let mut d: usize = 0;
+    let mut num_digits: usize;
+    let mut t: usize;
+    let mut d: usize;
     'outer: for p in primes {
         num_digits = 0;
         t = p;
@@ -23,12 +23,13 @@ pub fn circularprimes() {
             if t > 0 {
                 num_digits += 1;
                 t /= 10;
+            } else {
+                break;
             }
-            else { break; }
         }
-        
+
         t = p;
-        'inner: for i in 1..num_digits {
+        for _i in 1..num_digits {
             d = t % 10;
             t = t / 10;
             t = t + d * (10 as usize).pow(num_digits as u32 - 1);
@@ -46,8 +47,7 @@ fn is_prime(n: usize, primes: &Vec<usize>) -> bool {
     for v in primes {
         if *v > max {
             return true;
-        }
-        else if n % v == 0 {
+        } else if n % v == 0 {
             return false;
         }
     }

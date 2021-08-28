@@ -1,7 +1,7 @@
 use utils;
 
 pub fn connected_cell_in_grid() {
-    let m = utils::read_matrix_u32();
+    let m: Vec<Vec<u32>> = utils::read_matrix(10);
     let mut max_path: u32 = 0;
 
     for i in 0..m.len() {
